@@ -1,4 +1,4 @@
-FROM defterai/jam-taba-mxe:v5.15.2
+FROM defterai/qt-mxe:v5.15.2
 
 RUN \
     cd /opt && \

@@ -3,7 +3,7 @@ version: "3.6"
 services:
   worker:
     build: .
-    image: defterai/jam-taba-linux:v5.15.2
+    image: defterai/qt-linux:v5.15.2
     restart: always
     hostname: worker
     privileged: true
