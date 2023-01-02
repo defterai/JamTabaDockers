@@ -87,6 +87,16 @@ RUN \
 	cd /opt/vorbis && \
 	./autogen.sh && \
 	./configure --prefix=/mingw32 --host=i686-w64-mingw32 && \
+	make install
+
+# miniupnpc 2.2.4
+RUN \
+	cd /opt && \
+	git clone --depth 1 --branch miniupnpc_2_2_4 https://github.com/miniupnp/miniupnp
+
+RUN \
+	cd /opt/miniupnp/miniupnpc && \
+	cmake -D UPNPC_BUILD_STATIC=true -D UPNPC_BUILD_SHARED=false -D UPNPC_BUILD_TESTS=false -D UPNPC_BUILD_SAMPLE=false . && \
+	make -f Makefile.mingw && \
 	make install && \
 	exit 0
-
