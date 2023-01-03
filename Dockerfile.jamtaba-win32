@@ -1,4 +1,4 @@
-FROM defterai/qt-win32:v5.15.6
+FROM defterai/qt-win32:v5.15.7
 
 RUN \
 	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-addr2line /usr/bin/addr2line && \
@@ -98,5 +98,7 @@ RUN \
 	cd /opt/miniupnp/miniupnpc && \
 	cmake -D UPNPC_BUILD_STATIC=true -D UPNPC_BUILD_SHARED=false -D UPNPC_BUILD_TESTS=false -D UPNPC_BUILD_SAMPLE=false . && \
 	make -f Makefile.mingw && \
-	make install && \
+	make install
+
+RUN \
 	exit 0
