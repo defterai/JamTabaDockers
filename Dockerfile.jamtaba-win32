@@ -42,6 +42,16 @@ RUN \
 	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-windmc /usr/bin/windmc && \
 	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-windres /usr/bin/windres
 
+# libx264 stable
+RUN \
+	cd /opt && \
+	git clone --depth 1 --branch stable https://code.videolan.org/videolan/x264.git
+
+RUN \
+	cd /opt/x264 && \
+	./configure --host=mingw32 --enable-static --enable-lto --disable-asm --disable-opencl && \
+	make install
+
 # ffmpeg 4.4.1
 RUN \
 	cd /opt && \
