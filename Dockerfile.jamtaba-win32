@@ -60,13 +60,16 @@ RUN \
 # miniupnpc 2.2.4
 RUN \
 	cd /opt && \
-	git clone --depth 1 --branch miniupnpc_2_2_4 https://github.com/miniupnp/miniupnp
+	git clone --depth 1 --branch miniupnpc_2_2_4 https://github.com/miniupnp/miniupnp && \
+	sed -i 's/DESTINATION include\/miniupnpc/DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/g' /opt/miniupnp/miniupnpc/CMakeLists.txt
 
 RUN \
 	cd /opt/miniupnp/miniupnpc && \
-	cmake -D UPNPC_BUILD_STATIC=true -D UPNPC_BUILD_SHARED=false -D UPNPC_BUILD_TESTS=false -D UPNPC_BUILD_SAMPLE=false . && \
+	cmake -D CMAKE_INSTALL_INCLUDEDIR=/usr/local/include -D CMAKE_INSTALL_LIBDIR=/usr/local/lib -D UPNPC_BUILD_STATIC=true -D UPNPC_BUILD_SHARED=false -D UPNPC_BUILD_TESTS=false -D UPNPC_BUILD_SAMPLE=false . && \
 	make -f Makefile.mingw && \
-	make -j$(nproc) install
+	make -j$(nproc) install && \
+	./updateminiupnpcstrings.sh && \
+	cp miniupnpcstrings.h /usr/local/include
 
 RUN \
 	exit 0
