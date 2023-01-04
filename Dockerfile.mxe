@@ -21,7 +21,11 @@ RUN \
 
 RUN \
     cd /opt && \
-    git clone https://github.com/mxe/mxe.git && \
+	mkdir /opt/mxe && \
+	cd /opt/mxe && \
+	git init  && \
+	git remote add origin https://github.com/mxe/mxe.git && \
+	git pull --depth 1 origin 0617c435e14051d5baca0053fe2dd1f1e5e3fa96 && \
     exit 0
 
 ENV PATH="${PATH}:/opt/mxe/usr/bin"
