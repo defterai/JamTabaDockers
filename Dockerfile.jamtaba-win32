@@ -8,7 +8,7 @@ RUN \
 RUN \
 	cd /opt/x264 && \
 	./configure --host=mingw32 --enable-static --enable-lto --disable-asm --disable-opencl && \
-	make install
+	make -j$(nproc) install
 
 # ffmpeg 4.4.1
 RUN \
@@ -18,7 +18,7 @@ RUN \
 RUN \
 	cd /opt/ffmpeg && \
 	./configure --arch=x86 --target-os=mingw32 --enable-cross-compile --enable-static --enable-pic --disable-x86asm --disable-doc --disable-programs && \
-	make install
+	make -j$(nproc) install
 
 # ASIO SDK 2.3.3
 RUN \
@@ -37,7 +37,7 @@ RUN \
 RUN \
 	cd /opt/portaudio && \
 	./configure --host=i686-w64-mingw32 --with-winapi=asio --with-asiodir=/opt/asiosdk2 && \
-	make install
+	make -j$(nproc) install
 
 # ogg 1.3.5, vorbis 1.3.7
 RUN \
@@ -49,13 +49,13 @@ RUN \
 	cd /opt/ogg && \
 	./autogen.sh && \
 	./configure --prefix=/mingw32 --host=i686-w64-mingw32 --enable-static --enable-shared=false && \
-	make install
+	make -j$(nproc) install
 
 RUN \
 	cd /opt/vorbis && \
 	./autogen.sh && \
 	./configure --prefix=/mingw32 --host=i686-w64-mingw32 --enable-static --enable-shared=false && \
-	make install
+	make -j$(nproc) install
 
 # miniupnpc 2.2.4
 RUN \
@@ -66,7 +66,7 @@ RUN \
 	cd /opt/miniupnp/miniupnpc && \
 	cmake -D UPNPC_BUILD_STATIC=true -D UPNPC_BUILD_SHARED=false -D UPNPC_BUILD_TESTS=false -D UPNPC_BUILD_SAMPLE=false . && \
 	make -f Makefile.mingw && \
-	make install
+	make -j$(nproc) install
 
 RUN \
 	exit 0
