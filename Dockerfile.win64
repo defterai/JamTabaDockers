@@ -1,9 +1,9 @@
-FROM defterai/qt-mxe:v5.15.6
+FROM defterai/qt-mxe:v5.15.7
 
 RUN \
     cd /opt/mxe && \
     NPROC=$(($(nproc)+4)) && \
-    make --jobs=$NPROC JOBS=$NPROC MXE_TARGETS='x86_64-w64-mingw32.static' qtbase && \
+    make --jobs=$NPROC JOBS=$NPROC MXE_TARGETS='x86_64-w64-mingw32.static' qtbase qtwebsockets qtmultimedia && \
     ln -s /opt/mxe/usr/bin/x86_64-w64-mingw32.static-qmake-qt5 /usr/bin/qmake && \
     qmake --version && \
     exit 0
