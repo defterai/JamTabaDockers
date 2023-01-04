@@ -1,47 +1,5 @@
 FROM defterai/qt-win32:v5.15.7
 
-RUN \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-addr2line /usr/bin/addr2line && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-ar /usr/bin/ar && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-as /usr/bin/as && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-c++ /usr/bin/c++ && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-c++filt /usr/bin/c++filt && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-cmake /usr/bin/cmake && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-cpack /usr/bin/cpack && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-cpp /usr/bin/cpp && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-dlltool /usr/bin/dlltool && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-dllwrap /usr/bin/dllwrap && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-elfedit /usr/bin/elfedit && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-g++ /usr/bin/g++ && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-gcc /usr/bin/gcc && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-gcc-11.3.0 /usr/bin/gcc-11.3.0 && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-gcc-ar /usr/bin/gcc-ar && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-gcc-nm /usr/bin/gcc-nm && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-gcc-ranlib /usr/bin/gcc-ranlib && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-gcov /usr/bin/gcov && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-gcov-dump /usr/bin/gcov-dump && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-gcov-tool /usr/bin/gcov-tool && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-gfortran /usr/bin/gfortran && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-gprof /usr/bin/gprof && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-ld /usr/bin/ld && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-ld.bfd /usr/bin/ld.bfd && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-lto-dump /usr/bin/lto-dump && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-meson /usr/bin/meson && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-nm /usr/bin/nm && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-objcopy /usr/bin/objcopy && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-objdump /usr/bin/objdump && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-pcre-config /usr/bin/pcre-config && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-pcre2-config /usr/bin/pcre2-config && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-pg_config /usr/bin/pg_config && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-pkg-config /usr/bin/pkg-config && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-ranlib /usr/bin/ranlib && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-readelf /usr/bin/readelf && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-size /usr/bin/size && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-strings /usr/bin/strings && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-strip /usr/bin/strip && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-windmc /usr/bin/windmc && \
-	ln -sf /opt/mxe/usr/bin/i686-w64-mingw32.static-windres /usr/bin/windres
-
 # libx264 stable
 RUN \
 	cd /opt && \
@@ -90,13 +48,13 @@ RUN \
 RUN \
 	cd /opt/ogg && \
 	./autogen.sh && \
-	./configure --prefix=/mingw32 --host=i686-w64-mingw32 && \
+	./configure --prefix=/mingw32 --host=i686-w64-mingw32 --enable-static --enable-shared=false && \
 	make install
 
 RUN \
 	cd /opt/vorbis && \
 	./autogen.sh && \
-	./configure --prefix=/mingw32 --host=i686-w64-mingw32 && \
+	./configure --prefix=/mingw32 --host=i686-w64-mingw32 --enable-static --enable-shared=false && \
 	make install
 
 # miniupnpc 2.2.4
