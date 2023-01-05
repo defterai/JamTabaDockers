@@ -4,7 +4,7 @@ set -euxo pipefail
 docker pull ubuntu:20.04
 
 # Ubuntu statically linked
-docker build --force-rm -f Dockerfile.linux -t defterai/qt-linux:v5.15.2 .
+docker build --force-rm -f Dockerfile.linux -t defterai/qt-linux:v5.15.7 .
 
 # MXE (M cross environment)
 docker build --force-rm -f Dockerfile.mxe -t defterai/qt-mxe:v5.15.7 .

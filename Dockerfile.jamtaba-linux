@@ -1,0 +1,63 @@
+FROM defterai/qt-linux:v5.15.7
+
+# libx264 stable
+RUN \
+	cd /opt && \
+	git clone --depth 1 --branch stable https://code.videolan.org/videolan/x264.git && \
+	cd /opt/x264 && \
+	./configure --host=x86_64-linux-gnu --enable-static --enable-lto --disable-asm --disable-opencl && \
+	make -j$(nproc) install && \
+	rm -rf /opt/x264
+
+# ffmpeg 4.4.1
+RUN \
+	cd /opt && \
+	git clone --depth 1 --branch n4.4.1 https://git.ffmpeg.org/ffmpeg.git && \
+	cd /opt/ffmpeg && \
+	./configure --arch=x86_64 --target-os=linux --enable-static --enable-pic --disable-x86asm --disable-doc --disable-programs && \
+	make -j$(nproc) install && \
+	rm -rf /opt/ffmpeg
+
+# PortAudio 19.7.0
+RUN \
+	cd /opt/ && \
+	git clone --depth 1 --branch v19.7.0 https://github.com/PortAudio/portaudio.git && \
+	cd /opt/portaudio && \
+	./configure --host=x86_64-linux-gnu --enable-static --enable-shared=false --with-alsa --without-oss && \
+	make -j$(nproc) install && \
+	rm -rf /opt/portaudio
+
+# ogg 1.3.5
+RUN \
+	cd /opt/ && \
+	git clone --depth 1 --branch v1.3.5 https://gitlab.xiph.org/xiph/ogg && \
+	cd /opt/ogg && \
+	./autogen.sh && \
+	./configure --prefix=/usr/local --host=x86_64-linux-gnu --enable-static --enable-shared=false && \
+	make -j$(nproc) install && \
+	rm -rf /opt/ogg
+
+# vorbis 1.3.7
+RUN \
+	cd /opt/ && \
+	git clone --depth 1 --branch v1.3.7 https://gitlab.xiph.org/xiph/vorbis && \
+	cd /opt/vorbis && \
+	./autogen.sh && \
+	./configure --prefix=/usr/local --host=x86_64-linux-gnu --enable-static --enable-shared=false && \
+	make -j$(nproc) install && \
+	rm -rf /opt/vorbis
+
+# miniupnpc 2.2.4
+RUN \
+	cd /opt && \
+	git clone --depth 1 --branch miniupnpc_2_2_4 https://github.com/miniupnp/miniupnp && \
+	cd /opt/miniupnp/miniupnpc && \
+	sed -i 's/DESTINATION include\/miniupnpc/DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/g' CMakeLists.txt && \
+	cmake -D CMAKE_INSTALL_INCLUDEDIR=/usr/local/include -D CMAKE_INSTALL_LIBDIR=/usr/local/lib -D UPNPC_BUILD_STATIC=true -D UPNPC_BUILD_SHARED=false -D UPNPC_BUILD_TESTS=false -D UPNPC_BUILD_SAMPLE=false . && \
+	make -j$(nproc) install && \
+	./updateminiupnpcstrings.sh && \
+	cp miniupnpcstrings.h /usr/local/include && \
+	rm -rf /opt/miniupnp
+
+RUN \
+	exit 0

@@ -10,7 +10,7 @@ RUN \
         libpng-dev libsqlite3-dev libssl-dev libx11-xcb-dev libxcb-xinerama0-dev \
         libxcb-xkb-dev libxcb1-dev libxcursor-dev libxi-dev libxml2-dev libxrender-dev \
         libxslt-dev lzip mesa-common-dev nano perl python valgrind wget zlib1g-dev \
-        '^libxcb.*-dev' libxkbcommon-dev libxkbcommon-x11-dev && \
+        '^libxcb.*-dev' libxkbcommon-dev libxkbcommon-x11-dev libasound2-dev autoconf libtool && \
     apt -y autoremove && \
     apt -y autoclean && \
     apt -y clean && \
@@ -20,20 +20,21 @@ RUN \
 RUN \
     set -eux && \
     cd /opt && \
-    wget -q http://download.qt.io/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.tar.xz && \
-    tar xf qt-everywhere-src-5.15.2.tar.xz && \
-    rm qt-everywhere-src-5.15.2.tar.xz && \
+    wget -q http://download.qt.io/archive/qt/5.15/5.15.7/single/qt-everywhere-opensource-src-5.15.7.tar.xz && \
+    tar xf qt-everywhere-opensource-src-5.15.7.tar.xz && \
+    rm qt-everywhere-opensource-src-5.15.7.tar.xz && \
     exit 0
 
 RUN \
-    cd /opt/qt-everywhere-src-5.15.2 && \
-    ./configure -opensource -confirm-license -release -static -nomake tests -nomake examples -skip qtwebengine \
+    cd /opt/qt-everywhere-src-5.15.7 && \
+    ./configure -opensource -confirm-license -release -static -nomake tests -nomake examples \
+	-skip qtdoc -skip qtpurchasing -skip qtscxml -skip qtsensors -skip qtserialbus -skip qtserialport -skip qtwebengine \
     -qt-zlib -qt-libjpeg -qt-libpng -xcb -qt-freetype -qt-pcre -qt-harfbuzz && \
     make -j $(($(nproc)+4)) && \
     make install && \
     cd /opt && \
-    rm -rf qt-everywhere-src-5.15.2 && \
+    rm -rf qt-everywhere-src-5.15.7 && \
     exit 0
 
-ENV PATH="${PATH}:/usr/local/Qt-5.15.2/bin"
+ENV PATH="${PATH}:/usr/local/Qt-5.15.7/bin"
 ENTRYPOINT ["/bin/bash"]
