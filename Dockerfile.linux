@@ -6,11 +6,12 @@ RUN \
     apt -y upgrade && \
     apt -y install \
         build-essential cmake freeglut3-dev gdb git iputils-ping libgl1-mesa-dev \
-        libglu1-mesa-dev libjpeg-dev libmysqlclient-dev libnss3-dev libopus-dev \
-        libpng-dev libsqlite3-dev libssl-dev libx11-xcb-dev libxcb-xinerama0-dev \
+        libglu1-mesa-dev libjpeg-dev libnss3-dev libopus-dev \
+        libpng-dev libssl-dev libx11-xcb-dev libxcb-xinerama0-dev \
         libxcb-xkb-dev libxcb1-dev libxcursor-dev libxi-dev libxml2-dev libxrender-dev \
         libxslt-dev lzip mesa-common-dev nano perl python valgrind wget zlib1g-dev \
-        '^libxcb.*-dev' libxkbcommon-dev libxkbcommon-x11-dev libasound2-dev autoconf libtool && \
+        '^libxcb.*-dev' libxkbcommon-dev libxkbcommon-x11-dev \
+		libasound2-dev autoconf libtool libfontconfig1-dev && \
     apt -y autoremove && \
     apt -y autoclean && \
     apt -y clean && \
@@ -27,9 +28,13 @@ RUN \
 
 RUN \
     cd /opt/qt-everywhere-src-5.15.7 && \
-    ./configure -opensource -confirm-license -release -static -nomake tests -nomake examples \
-	-skip qtdoc -skip qtpurchasing -skip qtscxml -skip qtsensors -skip qtserialbus -skip qtserialport -skip qtwebengine \
-    -qt-zlib -qt-libjpeg -qt-libpng -xcb -qt-freetype -qt-pcre -qt-harfbuzz && \
+    ./configure -opensource -confirm-license -release -static -fontconfig -feature-freetype -system-freetype \
+	-nomake tests -nomake examples -nomake tools \
+    -skip qtandroidextras -skip qtcharts -skip qtdatavis3d -skip qtdeclarative -skip qtdoc -skip qtlocation  -skip qtlottie \
+	-skip qtmacextras -skip qtpurchasing -skip qtquick3d -skip qtquickcontrols -skip qtquickcontrols2 -skip qtquicktimeline -skip qtscxml \
+    -skip qtscript -skip qtsensors -skip qtserialbus -skip qtserialport -skip qtvirtualkeyboard -skip qtwinextras \
+	-skip qtwebchannel -skip qtwebglplugin -skip qtwebview -skip qtwinextras -skip qtx11extras -skip qtxmlpatterns -skip qtwebengine \
+    -qt-zlib -qt-libjpeg -qt-libpng -xcb -qt-pcre -qt-harfbuzz && \
     make -j $(($(nproc)+4)) && \
     make install && \
     cd /opt && \
