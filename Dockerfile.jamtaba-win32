@@ -70,5 +70,4 @@ RUN \
 	cp miniupnpcstrings.h /usr/local/include && \
 	rm -rf /opt/miniupnp
 
-RUN \
-	exit 0
+ENV JAMTABA_BUILDER=docker
